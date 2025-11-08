@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NexBuy — Online Shopping</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <!-- HEADER / NAV -->
+  <header class="site-header">
+    <div class="topbar">
+      <button id="hamburger" class="hamburger" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="logo" aria-hidden="true">
+        <span>NexBuy</span>
+      </div>
+
+      <div class="search-area">
+        <select id="category-select" class="search-select">
+          <option value="all">All</option>
+          <option value="electronics">Electronics</option>
+          <option value="beauty">Beauty</option>
+          <option value="home">Home</option>
+          <option value="toys">Toys</option>
+          <option value="pets">Pets</option>
+        </select>
+        <input id="search-input" class="search-input" type="search" placeholder="Search NexBuy" />
+        <button id="search-btn" class="search-btn" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <div class="header-actions">
+        <button id="auth-btn" class="auth-btn">Sign in</button>
+        <button id="cart-btn" class="cart-btn" aria-label="Open cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-count" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- collapsible nav (mobile drawer) -->
+    <nav id="main-nav" class="main-nav collapsed">
+      <ul>
+        <li><a href="#" data-filter="all">All</a></li>
+        <li><a href="#" data-filter="electronics">Electronics</a></li>
+        <li><a href="#" data-filter="beauty">Beauty</a></li>
+        <li><a href="#" data-filter="home">Home</a></li>
+        <li><a href="#" data-filter="toys">Toys</a></li>
+        <li><a href="#" data-filter="pets">Pets</a></li>
+      </ul>
+    </nav>
+
+    <!-- product slider -->
+    <section class="hero">
+      <div id="carousel" class="carousel">
+        <button class="carousel-btn prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="carousel-track">
+          <div class="slide" style="background-image:url('hero_image.jpg')">
+            <div class="slide-text"><h2>Big Deals</h2><p>Discover great offers</p></div>
+          </div>
+          <div class="slide" style="background-image:url('box4_image.jpg')">
+            <div class="slide-text"><h2>Electronics</h2><p>Best prices</p></div>
+          </div>
+          <div class="slide" style="background-image:url('box2_image.jpg')">
+            <div class="slide-text"><h2>Health & Care</h2><p>Top picks</p></div>
+          </div>
+        </div>
+        <button class="carousel-btn next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </section>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <aside class="filters" id="filters">
+      <h3>Filters</h3>
+
+      <div class="filter-group">
+        <label for="price-range">Max Price: <span id="price-value">5000</span></label>
+        <input id="price-range" type="range" min="0" max="10000" step="50" value="5000" />
+      </div>
+
+      <div class="filter-group">
+        <h4>Category</h4>
+        <div class="categories">
+          <label><input type="checkbox" class="cat-checkbox" value="electronics" checked /> Electronics</label>
+          <label><input type="checkbox" class="cat-checkbox" value="beauty" checked /> Beauty</label>
+          <label><input type="checkbox" class="cat-checkbox" value="home" checked /> Home</label>
+          <label><input type="checkbox" class="cat-checkbox" value="toys" checked /> Toys</label>
+          <label><input type="checkbox" class="cat-checkbox" value="pets" checked /> Pets</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <button id="clear-filters" class="btn">Clear filters</button>
+      </div>
+    </aside>
+
+    <section class="product-area">
+      <div class="toolbar">
+        <div class="sort">
+          <label for="sort-select">Sort:</label>
+          <select id="sort-select">
+            <option value="relevance">Relevance</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="name-asc">Name A → Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid"></div>
+    </section>
+  </main>
+
+  <!-- CART PANEL -->
+  <aside id="cart-panel" class="cart-panel hidden">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="cart-items" class="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-summary">
+        <span>Subtotal:</span>
+        <strong id="cart-total">₹0</strong>
+      </div>
+      <div class="cart-actions">
+        <button id="checkout-btn" class="btn primary">Proceed to Checkout</button>
+        <button id="clear-cart" class="btn">Clear Cart</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="auth-close"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="auth-title">Sign in</h3>
+      <form id="auth-form">
+        <label for="email">Email</label>
+        <input id="email" type="email" required placeholder="you@example.com"/>
+        <label for="password">Password</label>
+        <input id="password" type="password" required minlength="6" placeholder="6+ characters"/>
+        <button class="btn primary" type="submit" id="auth-submit">Sign in</button>
+      </form>
+      <div class="modal-footer">
+        <small>Demo login stored in localStorage.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkout-modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="checkout-close"><i class="fa-solid fa-xmark"></i></button>
+      <h3>Checkout</h3>
+      <form id="checkout-form" novalidate>
+        <label for="fullname">Full name</label>
+        <input id="fullname" type="text" required minlength="3" />
+        <label for="address">Address</label>
+        <input id="address" type="text" required />
+        <label for="card">Card number</label>
+        <input id="card" type="text" pattern="\d{16}" required placeholder="16 digits"/>
+        <label for="city">City</label>
+        <input id="city" type="text" required />
+        <div class="checkout-actions">
+          <button class="btn primary" type="submit">Pay</button>
+          <button class="btn" type="button" id="checkout-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="flying-dot" class="flying-dot"></div>
+
+  <template id="product-card-template">
+    <article class="product-card">
+      <div class="product-thumb"><img src="" alt="" /></div>
+      <div class="product-info">
+        <h4 class="product-title"></h4>
+        <p class="product-category"></p>
+        <div class="price-row">
+          <span class="product-price"></span>
+          <button class="btn add-cart">Add</button>
+        </div>
+      </div>
+      <div class="product-hover">
+        <button class="btn small quick-view">Quick view</button>
+        <button class="btn outline small add-cart">Add to Cart</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
